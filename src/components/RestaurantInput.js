@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { addRestaurant } from '../actions/restaurants';
+import { addRestaurant as addRestaurantCreatore } from '../actions/restaurants';
 import { connect } from 'react-redux';
 
 export class RestaurantInput extends Component {
@@ -17,13 +17,15 @@ export class RestaurantInput extends Component {
 
   handleOnLocationChange = event => {
     this.setState({
-      [event.target.id]: event.target.value
+      location: event.target.value
     });
   }
 
   handleOnSubmit = event => {
     event.preventDefault();
     // add missing code
+    const payload = {name: this.state.name, location: this.state.location}
+    this.props.addRestaurantProp(payload)
   }
 
   render() {
@@ -48,7 +50,13 @@ export class RestaurantInput extends Component {
     );
   }
 };
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    addRestaurantProp: (payload) => dispatch(addRestaurantCreatore(payload))
+  } 
+}
+
 
 
 //connect this component by wrapping RestaurantInput below
-export default RestaurantInput
+export default connect(null, mapDispatchToProps)(RestaurantInput)
